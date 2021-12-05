@@ -1,78 +1,25 @@
 ﻿#include <iostream>
+#include<set>
+#define ll long long
 
 using namespace std;
 
-int main() {
-	long long res = 0;
-	int m[12];// первые 12 знаков РНК
-	int pos = 0;
-	for (int i = 0; i < 4; ++i) {//кодируем числами от 0 до 3 и перебираем первые 12 знаков
-		m[pos] = i;
-		++pos;
-		for (int i = 0; i < 4; ++i) {
-			m[pos] = i;
-			++pos;
-			for (int i = 0; i < 4; ++i) {
-				m[pos] = i;
-				++pos;
-				for (int i = 0; i < 4; ++i) {
-					m[pos] = i;
-					++pos;
-					for (int i = 0; i < 4; ++i) {
-						m[pos] = i;
-						++pos;
-						for (int i = 0; i < 4; ++i) {
-							m[pos] = i;
-							++pos;
-							for (int i = 0; i < 4; ++i) {
-								m[pos] = i;
-								++pos;
-								for (int i = 0; i < 4; ++i) {
-									m[pos] = i;
-									++pos;
-									for (int i = 0; i < 4; ++i) {
-										m[pos] = i;
-										++pos;
-										for (int i = 0; i < 4; ++i) {
-											m[pos] = i;
-											++pos;
-											for (int i = 0; i < 4; ++i) {
-												m[pos] = i;
-												++pos;
-												for (int i = 0; i < 4; ++i) {
-													m[pos] = i;
-													++pos;
-													int f = 1;
-													for (int i = 0; i < 10; ++i) {
-														if ((m[i] == 0) && (m[i + 1] == 0) && (m[i + 2] != 0)) { //сопостовляем стоп-кодонам 3 варианта 001, 002, 003
-															f = 0; //не считаем РНК если встретился стоп-кодон не в конце
-															break;
-														}
-													}
-													res += f;
-													--pos;
-												}
-												--pos;
-											}
-											--pos;
-										}
-										--pos;
-									}
-									--pos;
-								}
-								--pos;
-							}
-							--pos;
-						}
-						--pos;
-					}
-					--pos;
-				}
-				--pos;
+
+int main()
+{
+	//A - 0, C - 1, G - 2, U - 3 в 4ичной с-ме счисления
+	//нам важно только чтоб было 3 стоп-кодона, поэтому их значения можем заменить на 000 001 и 002
+	ll res = 0;
+	for (ll i = 0; i < (1 << 24); ++i) {//1 << 24 т к 4^12=2^24  12=15-3
+		int f = 1;
+		for (ll j = 0; j <= 18; j += 2) {
+			if (((i >> j) & 63) < 3) { //сравниваем тройку цифр 4ичной системы со стоп-кодонами
+				f = 0;
+				break;
 			}
-			--pos;
 		}
-		--pos;
+		res += f;
 	}
-	cout << res * 3; //умножаем на количество вариантов стоп-кодонов в конце
+	cout << res * 3; //3 варианта стоп-кодона в конце
+
 }
